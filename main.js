@@ -120,11 +120,21 @@ function renderPost(objPost) {
     `;
 
     eleAnchor.addEventListener('click', function() {
+        const likeClasses = [...this.classList];
+        if (!likeClasses.includes("like-button--liked")) {
+
+        
         objPost.likes = objPost.likes + 1;
         console.log(objPost.likes);
         const likeCounterHolder = document.querySelector(`#like-counter-${objPost.id}`);
         likeCounterHolder.innerHTML = objPost.likes;
         this.classList.add('like-button--liked');
+        } else {
+            objPost.likes = objPost.likes - 1;
+            this.classList.remove('like-button--liked');
+            const likeCounterHolder = document.querySelector(`#like-counter-${objPost.id}`);
+            likeCounterHolder.innerHTML = objPost.likes;
+        }
         
     });
     btnHolder.appendChild(eleAnchor);
