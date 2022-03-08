@@ -57,7 +57,7 @@ const posts = [
 ];
 
 const eleOutput = document.querySelector('.posts-list');
-console.log(eleOutput);
+
 //  Milestone 1 - Prendendo come riferimento il layout di esempio presente nell'html, stampiamo i post del nostro feed.
 for (let i = 0; i < posts.length; i++) {
     renderPost(posts[i]);
@@ -69,19 +69,19 @@ function renderPost(objPost) {
 	const elePost = document.createElement('div');
 	elePost.classList.add('post');
     elePost.setAttribute('id', objPost.id);
-    let eleDate = Date.parse(objPost.created);
-    // let eleDate = msec.getMonth();
-    let dateNow = new Date();
+    // let eleDate = Date.parse(objPost.created);
+   
+    // let dateNow = new Date();
+    // // console.log(dateNow);
+    // let date = new Date(eleDate);
+    // let month = date.getMonth();
+    // // console.log(month);
+    // // console.log(date.getMonth());
+    // dateNow = Date.parse(dateNow);
     // console.log(dateNow);
-    let date = new Date(eleDate);
-    let month = date.getMonth();
-    // console.log(month);
-    // console.log(date.getMonth());
-
-    let dateAgo = dateNow - date;
-    
-
-    console.log(dateAgo);
+    // let dateAgo = dateNow - date;
+    // dateAgo = dateAgo / 60 / 60 / 24 / 30;
+    // console.log(dateAgo);
 	elePost.innerHTML = `
                     <div class="post__header">
                     <div class="post-meta">                    
@@ -92,30 +92,46 @@ function renderPost(objPost) {
                             <div class="post-meta__author">${objPost.author.name}</div>
                             <div class="post-meta__time">${objPost.created}</div>
                         </div>                    
+                        </div>
                     </div>
-                </div>
-                <div class="post__text">${objPost.content}</div>
-                <div class="post__image">
-                    <img src="${objPost.media}" alt="">
-                </div>
-                <div class="post__footer">
-                    <div class="likes js-likes">
-                        <div class="likes__cta">
-                            <a class="like-button  js-like-button" href="#" data-postid="${objPost.id}">
-                                <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-                                <span class="like-button__label">Mi Piace</span>
-                            </a>
-                        </div>
-                        <div class="likes__counter">
-                            Piace a <b id="like-counter-${objPost.id}" class="js-likes-counter">${objPost.likes}</b> persone
-                        </div>
-                    </div> 
-                </div>
+                    <div class="post__text">${objPost.content}</div>
+                    <div class="post__image">
+                        <img src="${objPost.media}" alt="">
+                    </div>
+                    <div class="post__footer">
+                        <div class="likes js-likes">
+                            <div class="likes__cta" id="like-button-here-${objPost.id}">
+                            </div>
+                            <div class="likes__counter">
+                                Piace a <b id="like-counter-${objPost.id}" class="js-likes-counter">${objPost.likes}</b> persone
+                            </div>
+                        </div> 
+                    </div>
 	`;
 	eleOutput.append(elePost);
+    
+    const btnHolder = document.querySelector(`#like-button-here-${objPost.id}`);
+    const eleAnchor = document.createElement('a')
+    eleAnchor.classList.add('like-button', 'js-like-button');
+    eleAnchor.setAttribute('data-postid', objPost.id);
+    eleAnchor.innerHTML = `
+                            <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                            <span class="like-button__label">Mi Piace</span>
+    `;
+
+    eleAnchor.addEventListener('click', function() {
+        objPost.likes = objPost.likes + 1;
+        console.log(objPost.likes);
+        const likeCounterHolder = document.querySelector(`#like-counter-${objPost.id}`);
+        likeCounterHolder.innerHTML = objPost.likes;
+        
+    });
+    btnHolder.appendChild(eleAnchor);
 }
 
-  
+
+
+
 
 // Milestone 2 - Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo.
 // Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
@@ -130,3 +146,17 @@ function renderPost(objPost) {
 
 // Function 
 
+// function buttonLike(objPost) {
+    
+//     // const index = [...this.parentNode.children].indexOf(this);
+//     // console.log(index);
+//     // // console.log(...this.parentNode.parentNode.parentNode.parentNode.parentNode.children);
+//     // console.log(index);
+//     objPost.likes = objPost.likes + 1;
+//     console.log(objPost.likes);
+//     const likeCounterHolder = document.querySelector(`#like-counter-${objPost.id}`);
+//     likeCounterHolder.innerHTML = objPost.likes;
+
+   
+
+// }
