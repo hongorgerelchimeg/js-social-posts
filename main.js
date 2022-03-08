@@ -59,11 +59,29 @@ const posts = [
 const eleOutput = document.querySelector('.posts-list');
 console.log(eleOutput);
 //  Milestone 1 - Prendendo come riferimento il layout di esempio presente nell'html, stampiamo i post del nostro feed.
-renderPost(posts[0]);
+for (let i = 0; i < posts.length; i++) {
+    renderPost(posts[i]);
+}
+
+
+
 function renderPost(objPost) {
 	const elePost = document.createElement('div');
 	elePost.classList.add('post');
     elePost.setAttribute('id', objPost.id);
+    let eleDate = Date.parse(objPost.created);
+    // let eleDate = msec.getMonth();
+    let dateNow = new Date();
+    // console.log(dateNow);
+    let date = new Date(eleDate);
+    let month = date.getMonth();
+    // console.log(month);
+    // console.log(date.getMonth());
+
+    let dateAgo = dateNow - date;
+    
+
+    console.log(dateAgo);
 	elePost.innerHTML = `
                     <div class="post__header">
                     <div class="post-meta">                    
