@@ -124,6 +124,7 @@ function renderPost(objPost) {
         console.log(objPost.likes);
         const likeCounterHolder = document.querySelector(`#like-counter-${objPost.id}`);
         likeCounterHolder.innerHTML = objPost.likes;
+        this.classList.add('like-button--liked');
         
     });
     btnHolder.appendChild(eleAnchor);
