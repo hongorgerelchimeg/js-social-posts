@@ -57,31 +57,25 @@ const posts = [
 ];
 
 const eleOutput = document.querySelector('.posts-list');
+const arrLikes = [];
 
 //  Milestone 1 - Prendendo come riferimento il layout di esempio presente nell'html, stampiamo i post del nostro feed.
 for (let i = 0; i < posts.length; i++) {
-    renderPost(posts[i]);
+    renderPost(posts[i], i);
+    arrLikes.push(i)
 }
 
 
 
-function renderPost(objPost) {
+function renderPost(objPost, index) {
 	const elePost = document.createElement('div');
 	elePost.classList.add('post');
     elePost.setAttribute('id', objPost.id);
-    // let eleDate = Date.parse(objPost.created);
-   
-    // let dateNow = new Date();
-    // // console.log(dateNow);
-    // let date = new Date(eleDate);
-    // let month = date.getMonth();
-    // // console.log(month);
-    // // console.log(date.getMonth());
-    // dateNow = Date.parse(dateNow);
-    // console.log(dateNow);
-    // let dateAgo = dateNow - date;
-    // dateAgo = dateAgo / 60 / 60 / 24 / 30;
-    // console.log(dateAgo);
+
+// 1. Formattare le date in formato italiano (gg/mm/aaaa)
+    let oldDate = objPost.created;
+    let newDate = oldDate.slice(5, 7) + "/" + oldDate.slice(-2) + "/" + oldDate.slice(0, 4);
+
 	elePost.innerHTML = `
                     <div class="post__header">
                     <div class="post-meta">                    
@@ -90,7 +84,7 @@ function renderPost(objPost) {
                         </div>
                         <div class="post-meta__data">
                             <div class="post-meta__author">${objPost.author.name}</div>
-                            <div class="post-meta__time">${objPost.created}</div>
+                            <div class="post-meta__time">${newDate}</div>
                         </div>                    
                         </div>
                     </div>
@@ -111,7 +105,7 @@ function renderPost(objPost) {
 	eleOutput.append(elePost);
     
     const btnHolder = document.querySelector(`#like-button-here-${objPost.id}`);
-    const eleAnchor = document.createElement('a')
+    const eleAnchor = document.createElement('a');
     eleAnchor.classList.add('like-button', 'js-like-button');
     eleAnchor.setAttribute('data-postid', objPost.id);
     eleAnchor.innerHTML = `
@@ -121,18 +115,33 @@ function renderPost(objPost) {
 
     eleAnchor.addEventListener('click', function() {
         const likeClasses = [...this.classList];
+        const likeCounterHolder = document.querySelector(`#like-counter-${objPost.id}`);
         if (!likeClasses.includes("like-button--liked")) {
 
         
         objPost.likes = objPost.likes + 1;
         console.log(objPost.likes);
-        const likeCounterHolder = document.querySelector(`#like-counter-${objPost.id}`);
         likeCounterHolder.innerHTML = objPost.likes;
         this.classList.add('like-button--liked');
+        
+        // // const index = [...this.parentNode.children].indexOf(this);
+        // // console.log(index);
+        // let index = parseInt(objPost.id - 1);
+        // console.log(index)
+        // console.log(arrLikes[index]);
+        
+        // if (arrLikes.includes(objPost.id)) {
+
+        //     arrLikes[index].push({
+        //         id: objPost.id,
+        //         like: objPost.likes
+        //     });
+        //     console.log(arrLikes);
+        // }
+
         } else {
             objPost.likes = objPost.likes - 1;
             this.classList.remove('like-button--liked');
-            const likeCounterHolder = document.querySelector(`#like-counter-${objPost.id}`);
             likeCounterHolder.innerHTML = objPost.likes;
         }
         
@@ -144,30 +153,10 @@ function renderPost(objPost) {
 
 
 
+
 // Milestone 2 - Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo.
 // Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
 // BONUS
-// 1. Formattare le date in formato italiano (gg/mm/aaaa)
+
 // 2. Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF).
-// 3. Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.
 
-
-
-
-
-// Function 
-
-// function buttonLike(objPost) {
-    
-//     // const index = [...this.parentNode.children].indexOf(this);
-//     // console.log(index);
-//     // // console.log(...this.parentNode.parentNode.parentNode.parentNode.parentNode.children);
-//     // console.log(index);
-//     objPost.likes = objPost.likes + 1;
-//     console.log(objPost.likes);
-//     const likeCounterHolder = document.querySelector(`#like-counter-${objPost.id}`);
-//     likeCounterHolder.innerHTML = objPost.likes;
-
-   
-
-// }
